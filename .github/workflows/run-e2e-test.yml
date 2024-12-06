@@ -23,7 +23,7 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 9.13.2
-          
+
       - uses: actions/setup-node@v4
         with: 
           node-version: 22
@@ -35,5 +35,6 @@ jobs:
 
       - run: pnpm run test:e2e
         env:
+          SHELL: /bin/bash
           JWT_SECRET: secrettests
           DATABASE_URL: "postgresql://dovker:docker@localhost:5432/apisolid?schema=public"

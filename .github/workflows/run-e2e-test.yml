@@ -1,0 +1,33 @@
+name: Run e2e Tests
+
+on: [pull_request]
+
+jobs:
+  run-e2e-tests:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    services:
+      poostgres:
+        image: bitnami/postgresql
+        ports:
+          - 5432:5432
+        env:
+          POSTGRESQL_USERNAME: dovker
+          POSTGRESQL_PASSWORD: docker
+          POSTGRESQL_DATABASE: apisolid
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 9.13.2
+      - uses: actions/setup-node@v4
+        with: 
+          node-version: 22
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm run test:e2e
+        env:
+          JWT_SECRET: secrettests
+          DATABASE_URL: "postgresql://dovker:docker@localhost:5432/apisolid?schema=public"

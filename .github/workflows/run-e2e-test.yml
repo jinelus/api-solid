@@ -4,11 +4,11 @@ on: [pull_request]
 
 jobs:
   run-e2e-tests:
-    name: Run Unit Tests
+    name: Run e2e Tests
     runs-on: ubuntu-latest
 
     services:
-      poostgres:
+      postgres:
         image: bitnami/postgresql
         ports:
           - 5432:5432
@@ -19,14 +19,20 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+
       - uses: pnpm/action-setup@v2
         with:
           version: 9.13.2
+          
       - uses: actions/setup-node@v4
         with: 
           node-version: 22
           cache: 'pnpm'
+
       - run: pnpm install
+        env:
+          SHELL: /bin/bash
+
       - run: pnpm run test:e2e
         env:
           JWT_SECRET: secrettests

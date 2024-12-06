@@ -46,3 +46,4 @@ jobs:
           SHELL: /bin/bash
           JWT_SECRET: secrettests
           DATABASE_URL: "postgresql://dovker:docker@localhost:5432/apisolid?schema=public"
+          DATABASE_CLIENT: pg

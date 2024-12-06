@@ -33,6 +33,14 @@ jobs:
         env:
           SHELL: /bin/bash
 
+      - name: Generate Prisma Client
+        run: pnpm prisma generate
+
+      - name: Run Prisma Migrations
+        run: pnpm prisma migrate dev --name init
+        env:
+          DATABASE_URL: "postgresql://dovker:docker@localhost:5432/apisolid?schema=public"
+
       - run: pnpm run test:e2e
         env:
           SHELL: /bin/bash
